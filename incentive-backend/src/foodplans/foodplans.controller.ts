@@ -38,7 +38,7 @@ export class foodplansController{
   @Post('')
   @ApiResponse({ type: () => FoodplansDto })
   @ApiBody({ type: () => CreateFoodplanDto })
-  async createUser(@Body() foodplanToCreate: CreateFoodplanDto) {
+  async createFoodplan(@Body() foodplanToCreate: CreateFoodplanDto) {
     if (await this.foodplansService.hasfoodplan(foodplanToCreate.name)) {
       throw new ConflictException(
         { email: foodplanToCreate.name, error: 'Foodplan already exists' },
@@ -51,7 +51,7 @@ export class foodplansController{
 
   @Delete(':name')
   @ApiParam({ name: 'name' })
-  async deleteUser(@Param('name') name: string) {
+  async deleteFoodplan(@Param('name') name: string) {
     await this.foodplansService.deleteFoodplan(name);
   }
 

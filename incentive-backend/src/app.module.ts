@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { TransactionModule } from './transactions/transaction.module';
 import { SharedModule, LoggerService } from './shared/shared.module';
 import { FoodplanModule } from './foodplans/foodplans.module';
+import { BestellungenModule } from './bestellungen/bestellungen.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { FoodplanModule } from './foodplans/foodplans.module';
     UsersModule,
     TransactionModule,
     FoodplanModule,
+    BestellungenModule,
   ],
   controllers: [],
   providers: [],
