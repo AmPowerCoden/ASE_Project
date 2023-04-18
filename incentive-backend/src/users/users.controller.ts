@@ -23,7 +23,7 @@ import { PatchUserDto } from './dto/patch-user.dto';
 import { UserDto } from './dto/user.dto';
 
 @Controller('users')
-@UseGuards(JwtAuthGuard, RolesGuard)
+//@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth()
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
@@ -46,7 +46,6 @@ export class UsersController {
   }
 
   @Post('')
-  @UseGuards(OwnRouteOrAdminGuard)
   @ApiResponse({ type: () => UserDto })
   @ApiBody({ type: () => CreateUserDto })
   async createUser(@Body() userToCreate: CreateUserDto) {

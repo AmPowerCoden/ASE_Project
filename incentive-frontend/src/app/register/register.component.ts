@@ -29,10 +29,10 @@ import { AppHttpClient } from '../shared/http-client.service';
     async register() { 
       try {
         const resultRegister = await firstValueFrom(this.http.post<{ access_token: string, userId: string }>("/users", this.userToRegister));
-        this.userToLogin.email = this.userToRegister.email
-        this.userToLogin.password = this.userToRegister.password
-        const result = await firstValueFrom(this.http.post<{ access_token: string, userId: string }>("/auth/login", this.userToLogin));
-        this.authService.setAccessToken(result.access_token, result.userId);
+        //this.userToLogin.email = this.userToRegister.email
+        //this.userToLogin.password = this.userToRegister.password
+        //const result = await firstValueFrom(this.http.post<{ access_token: string, userId: string }>("/auth/login", this.userToLogin));
+        this.authService.setAccessToken(resultRegister.access_token, resultRegister.userId);
         await this.router.navigate(["/profile"]);
       } catch (error: unknown) {
         this.errorMessage = (error as Error).message;
