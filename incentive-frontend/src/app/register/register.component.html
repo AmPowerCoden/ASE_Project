@@ -1,0 +1,22 @@
+<div class="register-wrapper">
+    <mat-card class="box">
+      <mat-card-header>
+        <mat-card-title>Registrierung</mat-card-title>
+      </mat-card-header>
+      <form class="example-form" #loginForm="ngForm">
+        <mat-card-content>
+          <mat-form-field class="example-full-width">
+            <input [(ngModel)]="userToRegister.email" name="email" matInput placeholder="Email">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input [(ngModel)]="userToRegister.personalnummer" name="personalnummer" matInput placeholder="Personalnummer">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input [(ngModel)]="userToRegister.password" name="password" matInput placeholder="Passwort" type="password">
+          </mat-form-field>
+        </mat-card-content>
+        <button mat-stroked-button color="primary" class="btn-block" (click)="register(); userToRegister.password = '';">Registrieren</button>
+      </form>
+    <mat-card-footer>{{ errorMessage }}</mat-card-footer>
+    </mat-card>
+  </div>

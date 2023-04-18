@@ -13,11 +13,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppHttpClient } from './shared/http-client.service';
 import { AuthService } from './shared/auth.service';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    RegisterComponent,
     HeaderComponent,
     ProfileComponent,
     TransactionsComponent

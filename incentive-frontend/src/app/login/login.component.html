@@ -13,6 +13,7 @@
           </mat-form-field>
         </mat-card-content>
         <button mat-stroked-button color="primary" class="btn-block" (click)="login(); userToLogin.password = '';">Log in</button>
+        <button mat-stroked-button color="primary" class="btn-block" routerLink="/register">Register</button>
       </form>
     <mat-card-footer>{{ errorMessage }}</mat-card-footer>
     </mat-card>

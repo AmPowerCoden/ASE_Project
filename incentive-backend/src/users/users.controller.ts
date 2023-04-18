@@ -45,8 +45,8 @@ export class UsersController {
     return users.map((user) => this.userToRest(user));
   }
 
-  @Roles(Role.Administrator)
   @Post('')
+  @UseGuards(OwnRouteOrAdminGuard)
   @ApiResponse({ type: () => UserDto })
   @ApiBody({ type: () => CreateUserDto })
   async createUser(@Body() userToCreate: CreateUserDto) {
