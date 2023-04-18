@@ -20,6 +20,7 @@ export class UsersModule implements OnModuleInit {
     await this.userService.ensureUser({
       email: 'admin@local',
       password: 'admin',
+      personalnummer: 1,
       firstname: 'Local',
       lastname: 'Administrator',
       roles: [Role.Administrator],

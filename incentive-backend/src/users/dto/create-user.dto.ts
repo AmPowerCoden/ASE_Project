@@ -5,6 +5,8 @@ export class CreateUserDto {
   email: string;
   @ApiProperty({ required: true })
   password: string;
+  @ApiProperty({ required: true })
+  personalnummer: number;
 
   @ApiProperty({ required: false })
   firstname?: string;

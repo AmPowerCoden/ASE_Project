@@ -14,6 +14,8 @@ export class User extends UserDto {
   email: string;
   @Prop({ required: true })
   password: string;
+  @Prop({ required: true, unique: true})
+  personalnummer: number;
   @Prop({})
   firstname: string;
   @Prop({})
