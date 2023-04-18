@@ -38,7 +38,7 @@ export class TransactionController {
     return this.transactionService.getTransactionsForUser(userId);
   }
 
-  @Roles(Role.Teamleader, Role.Administrator)
+  @Roles(Role.Kantinenarbeiter, Role.Administrator)
   @UseGuards(AssignedUsersGuard)
   @Post('')
   @ApiBody({ type: () => CreateTransactionDto })
