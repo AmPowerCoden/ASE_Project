@@ -15,6 +15,7 @@ import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { foodplansService } from './foodplans.service';
 import { FoodplansDocument } from './foodplans.schema';
 import { CreateFoodplanDto } from './dto/create-foodplan.dto';
+import { DateTime } from 'luxon';
 
 @Controller('foodplans')
 @ApiBearerAuth()
@@ -53,6 +54,12 @@ export class foodplansController{
   @ApiParam({ name: 'name' })
   async deleteFoodplan(@Param('name') name: string) {
     await this.foodplansService.deleteFoodplan(name);
+  }
+
+  @Post('date')
+  @ApiParam({ name: 'date'})
+  async getFoodplanByDate(@Param('date') name: DateTime) {
+    await this.foodplansService.findFoodplansDate(name)
   }
 
   private foodplanToRest(foodplan: FoodplansDocument) {

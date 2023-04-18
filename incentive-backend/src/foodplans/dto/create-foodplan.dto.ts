@@ -1,18 +1,33 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { DateTime } from 'luxon';
 
 export class CreateFoodplanDto {
     @ApiProperty({ required: true })
     name: string;
     @ApiProperty({ required: false })
-    montag: string;
+    montagProdukt: string;
     @ApiProperty({ required: false })
-    dienstag: string;
+    montagPreis: number;
     @ApiProperty({ required: false })
-    mittwoch: string;
+    dienstagProdukt: string;
     @ApiProperty({ required: false })
-    donnerstag: string;
+    dienstagPreis: number;
     @ApiProperty({ required: false })
-    freitag: string;
+    mittwochProdukt: string;
     @ApiProperty({ required: false })
-    samstag: string;
+    mittwochPreis: number;
+    @ApiProperty({ required: false })
+    donnerstagProdukt: string;
+    @ApiProperty({ required: false })
+    donnerstagPreis: number;
+    @ApiProperty({ required: false })
+    freitagProdukt: string;
+    @ApiProperty({ required: false })
+    freitagPreis: number;
+    @ApiProperty({ required: false })
+    samstagProdukt: string;
+    @ApiProperty({ required: false })
+    samstagPreis: number;
+    @ApiProperty({ required: true})
+    start: DateTime;
 }

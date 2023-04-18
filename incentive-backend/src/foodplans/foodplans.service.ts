@@ -8,6 +8,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { foodplans, FoodplansDocument } from './foodplans.schema';
 import mongoose, { Model } from 'mongoose';
 import { CreateFoodplanDto } from './dto/create-foodplan.dto';
+import { DateTime } from 'luxon';
+
 
   @Injectable()
   export class foodplansService{
@@ -25,6 +27,10 @@ import { CreateFoodplanDto } from './dto/create-foodplan.dto';
 
     async findFoodplans() {
       return this.foodplansModel.find({});
+    }
+
+    async findFoodplansDate(start: DateTime) {
+      return this.foodplansModel.find({start})
     }
 
     async createFoodplans(foodplanToCreate: CreateFoodplanDto) {

@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, ObjectId } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { FoodplansDto } from './dto/foodplans.dto';
+import {DateTime} from 'luxon'
 
 export type FoodplansDocument = foodplans & Document;
 
@@ -10,17 +11,31 @@ export class foodplans extends FoodplansDto {
     @Prop({ required: true, unique: true })
     name: string;
     @Prop({})
-    montag: string;
+    montagProdukt: string;
     @Prop({})
-    dienstag: string;
+    montagPreis: number;
     @Prop({})
-    mittwoch: string;
+    dienstagProdukt: string;
     @Prop({})
-    donnerstag: string;
+    dienstagPreis: number;
     @Prop({})
-    freitag: string;
+    mittwochProdukt: string;
     @Prop({})
-    samstag: string;
+    mittwochPreis: number;
+    @Prop({})
+    donnerstagProdukt: string;
+    @Prop({})
+    donnerstagPreis: number;
+    @Prop({})
+    freitagProdukt: string;
+    @Prop({})
+    freitagPreis: number;
+    @Prop({})
+    samstagProdukt: string;
+    @Prop({})
+    samstagPreis: number;
+    @Prop({required: true})
+    start: DateTime
     
     toJSON: () => foodplans;
 }

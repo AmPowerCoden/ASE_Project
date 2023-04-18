@@ -1,19 +1,34 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ObjectId } from 'mongoose';
+import { DateTime } from 'luxon';
 
 export class FoodplansDto{
     @ApiProperty()
-    name: string; //name soll immer so aufgebaut sein: menue1_12_07_2022 das datum soll hierbei der Beginn sein
+    name: string;
     @ApiProperty()
-    montag:string;
+    montagProdukt: string;
     @ApiProperty()
-    dienstag: string;
+    montagPreis: number;
     @ApiProperty()
-    mittwoch:string;
+    dienstagProdukt: string;
     @ApiProperty()
-    donnerstag: string;
+    dienstagPreis: number;
     @ApiProperty()
-    freitag:string;
+    mittwochProdukt: string;
     @ApiProperty()
-    samstag:string;
+    mittwochPreis: number;
+    @ApiProperty()
+    donnerstagProdukt: string;
+    @ApiProperty()
+    donnerstagPreis: number;
+    @ApiProperty()
+    freitagProdukt: string;
+    @ApiProperty()
+    freitagPreis: number;
+    @ApiProperty()
+    samstagProdukt: string;
+    @ApiProperty()
+    samstagPreis: number;
+    @ApiProperty()
+    start: DateTime;
 }

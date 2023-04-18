@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { FoodplansSchema, foodplans } from './foodplans.schema';
 import { foodplansController } from './foodplans.controller';
 import { foodplansService } from './foodplans.service';
+import { DateTime } from 'luxon';
 
 @Module({
     imports: [
@@ -18,12 +19,23 @@ import { foodplansService } from './foodplans.service';
     async onModuleInit() {
       await this.foodService.ensureFoodplan({
         name: "test",
-        montag: "test",
-        dienstag: "test",
-        mittwoch: "test",
-        donnerstag: "test",
-        freitag: "test",
-        samstag: "test",
+        montagProdukt: "test",
+        montagPreis: 22.09,
+        dienstagProdukt: "test",
+        dienstagPreis: 22.09,
+        mittwochProdukt: "test",
+        mittwochPreis: 22.09,
+        donnerstagProdukt: "test",
+        donnerstagPreis: 22.09,
+        freitagProdukt: "test",
+        freitagPreis: 22.09,
+        samstagProdukt: "test",
+        samstagPreis: 22.09,
+        start: DateTime.fromObject({
+          year: 2023,
+          month: 4,
+          day: 17
+        }),
       });
     }
   }
