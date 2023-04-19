@@ -7,13 +7,14 @@ import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TransactionsComponent } from './transactions/transactions.component';
+import { FoodplansComponent } from './foodplans/foodplans.component';
 import { MaterialModule } from './material.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppHttpClient } from './shared/http-client.service';
 import { AuthService } from './shared/auth.service';
 import { RegisterComponent } from './register/register.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RegisterComponent } from './register/register.component';
     RegisterComponent,
     HeaderComponent,
     ProfileComponent,
-    TransactionsComponent
+    FoodplansComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

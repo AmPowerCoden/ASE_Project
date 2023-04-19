@@ -16,6 +16,7 @@ import { foodplansService } from './foodplans.service';
 import { FoodplansDocument } from './foodplans.schema';
 import { CreateFoodplanDto } from './dto/create-foodplan.dto';
 import { DateTime } from 'luxon';
+import { request } from 'https';
 
 @Controller('foodplans')
 @ApiBearerAuth()
@@ -56,10 +57,10 @@ export class foodplansController{
     await this.foodplansService.deleteFoodplan(name);
   }
 
-  @Post('date')
-  @ApiParam({ name: 'date'})
-  async getFoodplanByDate(@Param('date') name: DateTime) {
-    await this.foodplansService.findFoodplansDate(name)
+  @Get(':date')
+  @ApiResponse({ type: () => FoodplansDto, isArray: true })
+  async getFoodplanByDate(@Request() request, @Param('date') date: DateTime) {
+    await this.foodplansService.findFoodplansDate(date)
   }
 
   private foodplanToRest(foodplan: FoodplansDocument) {

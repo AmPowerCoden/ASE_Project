@@ -1,10 +1,13 @@
 <div class="menu-wrapper">
-    <div class="menu-spalte-header">
-        <!-- hier mit ngfor arbeiten-->
-        <div class="spalte-header-box">
-            <p>Menü 1</p>
+    <div *ngIf="dataIsReady">
+        <div class="menu-spalte-header" >
+            <div *ngFor="let element of foodplans" class="spalte-header-box">
+                <p>{{element.name}}</p>
+            </div>
         </div>
     </div>
+    
+    
     <div class="menu-line-header">
         <div class="line-header-box">
             Montag
@@ -25,4 +28,43 @@
             Samstag
         </div>
     </div>
+
+
+    <div *ngIf="dataIsReady">
+        <div>
+            <div *ngFor="let element of foodplans" class="menu-zeile" >
+                <div class="menu-zeile-box">
+                    {{element.montagProdukt}}
+                    <input class="product_checkbox" type="checkbox">
+                </div>
+                <div class="menu-zeile-box">
+                    {{element.dienstagProdukt}}
+                    <input class="product_checkbox" type="checkbox">
+                </div>
+                <div class="menu-zeile-box">
+                    {{element.mittwochProdukt}}
+                    <input class="product_checkbox" type="checkbox">
+                </div>
+                <div class="menu-zeile-box">
+                    {{element.donnerstagProdukt}}
+                    <input class="product_checkbox" type="checkbox">
+                </div>
+                <div class="menu-zeile-box">
+                    {{element.freitagProdukt}}
+                    <input class="product_checkbox" type="checkbox">
+                </div>
+                <div class="menu-zeile-box">
+                    {{element.samstagProdukt}}
+                    <input class="product_checkbox" type="checkbox">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bestellung-abschluss">
+        <div class="bestellugs-button">
+            <button class="bestellung-button">Bestellung Absenden</button>
+        </div>
+    </div>
+
 </div>
