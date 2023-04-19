@@ -11,7 +11,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, pass: string): Promise<any> {
+  async validateUser(email: string, pass: string, personalnummer: number): Promise<any> {
     const user = await this.usersService.findOne(email);
     if (user && (await user.validatePassword(pass))) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,6 +31,7 @@ export class AuthService {
         roles: user.roles,
       }),
       userId: user._id,
+      personalnummer: user.personalnummer,
     };
   }
 }

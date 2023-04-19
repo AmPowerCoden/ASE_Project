@@ -21,6 +21,7 @@ import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PatchUserDto } from './dto/patch-user.dto';
 import { UserDto } from './dto/user.dto';
+import { request } from 'http';
 
 @Controller('users')
 //@UseGuards(JwtAuthGuard, RolesGuard)
@@ -34,6 +35,14 @@ export class UsersController {
   @ApiParam({ name: 'userId' })
   async getUser(@Request() request, @Param('userId') userId: string) {
     const user = await this.userService.findOneById(userId);
+    return this.userToRest(user);
+  }
+
+  @Get(':email')
+  @ApiResponse({ type: () => UserDto })
+  @ApiParam({ name: 'email' })
+  async getUserWithMail(@Request() request, @Param('email') email: string) {
+    const user = await this.userService.findOne(email);
     return this.userToRest(user);
   }
 

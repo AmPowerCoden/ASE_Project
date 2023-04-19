@@ -10,7 +10,7 @@ import { AppHttpClient } from '../shared/http-client.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  userToLogin: { email: string, password: string } = { email: "", password: "" };
+  userToLogin: { email: string, password: string, personalnummer: number } = { email: "", password: "", personalnummer: 0 };
   errorMessage: string = "";
   
   constructor(
@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
 
   async login() { 
     try {
-      const result = await firstValueFrom(this.http.post<{ access_token: string, userId: string }>("/auth/login", this.userToLogin));
-      this.authService.setAccessToken(result.access_token, result.userId);
+      const result = await firstValueFrom(this.http.post<{ access_token: string, userId: string, personalnummer: number }>("/auth/login", this.userToLogin));
+      this.authService.setAccessToken(result.access_token, result.userId, result.personalnummer);
       await this.router.navigate(["/profile"]);
     } catch (error: unknown) {
       this.errorMessage = (error as Error).message;

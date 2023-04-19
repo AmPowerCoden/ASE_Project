@@ -52,12 +52,12 @@ describe('validateUser', () => {
   });
 
   it('should return a user object when credentials are valid', async () => {
-    const res = await service.validateUser('maria', 'guess');
+    const res = await service.validateUser('maria', 'guess', 0);
     expect(res.userId).toEqual(3);
   });
 
   it('should return null when credentials are invalid', async () => {
-    const res = await service.validateUser('xxx', 'xxx');
+    const res = await service.validateUser('xxx', 'xxx', 0);
     expect(res).toBeNull();
   });
 });

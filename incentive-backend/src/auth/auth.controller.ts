@@ -8,6 +8,8 @@ export class LoginDto {
   email: string;
   @ApiProperty()
   password: string;
+  @ApiProperty()
+  personalnummer: number;
 }
 
 @Controller()

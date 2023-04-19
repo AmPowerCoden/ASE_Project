@@ -18,10 +18,10 @@ import { bestellungenService } from './bestellungen.service';
     async onModuleInit() {
       await this.bestellungenService.ensureBestellung({
         personalnummer: 1,
-        montag: "test",
+        montag: "test; Menü 2",
         dienstag: "test",
         mittwoch: "test",
-        donnerstag: "test",
+        donnerstag: "Menü 2",
         freitag: "test",
         samstag: "test",
       });
