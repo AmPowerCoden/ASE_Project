@@ -27,7 +27,7 @@ import { bestellung } from './bestellung';
     })}
     errorMessage: string = "";
     public foodplans!: foodplan[];
-    public bestellungen!: bestellung;
+    public bestellungen: bestellung = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag: "", personalnummer: Number(this.authService.getPersonalnummer())};
     dataIsReady: boolean = false;
     public montagsBestellung: string = "";
     public dienstagBestellung: string = "";
@@ -35,7 +35,15 @@ import { bestellung } from './bestellung';
     public donnerstagBestellung: string = "";
     public freitagBestellung: string = "";
     public samstagBestellung: string = "";
-    bestellungToRegister: { montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string} = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"" };
+    bestellungToUpdate: { montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string} = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"" };
+    bestellungToCreate: { personalnummer: number, montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string} = { personalnummer: Number(this.authService.getPersonalnummer()), montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"" };
+    public montagTotal: number = 0;
+    public dienstagTotal: number = 0;
+    public mittwochTotal: number = 0;
+    public donnerstagTotal: number = 0;
+    public freitagTotal: number = 0;
+    public samstagTotal: number = 0;
+
 
     constructor(
       private readonly http: AppHttpClient,
@@ -81,6 +89,8 @@ import { bestellung } from './bestellung';
         }
         counter++;
       }
+      
+      await this.onCheckboxChange()
       this.dataIsReady = true;
     }
 
@@ -119,11 +129,17 @@ import { bestellung } from './bestellung';
         this.bestellungen = await firstValueFrom(this.http.get<bestellung>('/bestellungen/' + this.authService.getPersonalnummer()))
       }
       catch (error: unknown) {
-        this.errorMessage = (error as Error).message;
+        
       }
     }
 
     async bestellungAbsenden(){
+      this.bestellungToUpdate.montag = "";
+      this.bestellungToUpdate.dienstag = "";
+      this.bestellungToUpdate.mittwoch = "";
+      this.bestellungToUpdate.donnerstag = "";
+      this.bestellungToUpdate.freitag = "";
+      this.bestellungToUpdate.samstag = "";
       try{
         let counter = 0;
         for (let foodplan of this.foodplans){
@@ -148,22 +164,69 @@ import { bestellung } from './bestellung';
           }
           counter++;
         }
-        this.bestellungToRegister.montag = this.montagsBestellung;
-        this.bestellungToRegister.dienstag = this.dienstagBestellung;
-        this.bestellungToRegister.mittwoch = this.mittwochBestellung;
-        this.bestellungToRegister.donnerstag = this.donnerstagBestellung;
-        this.bestellungToRegister.freitag = this.freitagBestellung;
-        this.bestellungToRegister.samstag = this.samstagBestellung;
-        const result = await firstValueFrom(this.http.patch<bestellung>('/bestellungen/' + Number(this.authService.getPersonalnummer()), this.bestellungToRegister))
+        this.bestellungToUpdate.montag = this.montagsBestellung;
+        this.bestellungToUpdate.dienstag = this.dienstagBestellung;
+        this.bestellungToUpdate.mittwoch = this.mittwochBestellung;
+        this.bestellungToUpdate.donnerstag = this.donnerstagBestellung;
+        this.bestellungToUpdate.freitag = this.freitagBestellung;
+        this.bestellungToUpdate.samstag = this.samstagBestellung;
+        const result = await firstValueFrom(this.http.patch<bestellung>('/bestellungen/' + Number(this.authService.getPersonalnummer()), this.bestellungToUpdate))
         alert("Ihre Bestellung für nächste Woche wurde Aktualisiert")
       }
       catch (error: unknown) {
-        this.errorMessage = (error as Error).message;
+        try{
+          
+          this.bestellungToCreate.montag = this.montagsBestellung;
+          this.bestellungToCreate.dienstag = this.dienstagBestellung;
+          this.bestellungToCreate.mittwoch = this.mittwochBestellung;
+          this.bestellungToCreate.donnerstag = this.donnerstagBestellung;
+          this.bestellungToCreate.freitag = this.freitagBestellung;
+          this.bestellungToCreate.samstag = this.samstagBestellung;
+
+          const result = await firstValueFrom(this.http.post<bestellung>("/bestellungen", this.bestellungToCreate))
+          alert("Ihre Bestellung wurde in der Datenbank angelegt!")
+        }
+        catch (error: unknown) {
+          this.errorMessage = (error as Error).message
+        }
+        
       }
     }
 
     trackByIndex(index: number, obj: any): any {
       return index;
+    }
+
+    async onCheckboxChange() {
+      let counter = 0;
+      this.montagTotal = 0;
+      this.dienstagTotal = 0;
+      this.mittwochTotal = 0;
+      this.donnerstagTotal = 0;
+      this.freitagTotal = 0;
+      this.samstagTotal = 0;
+
+      for (let foodplan in this.foodplans){
+        if(this.foodplans[counter].montagCheck){
+          this.montagTotal = this.montagTotal + this.foodplans[counter].montagPreis
+        }
+        if(this.foodplans[counter].dienstagCheck){
+          this.dienstagTotal = this.dienstagTotal + this.foodplans[counter].dienstagPreis
+        }
+        if(this.foodplans[counter].mitwochCheck){
+          this.mittwochTotal = this.mittwochTotal + this.foodplans[counter].mittwochPreis
+        }
+        if(this.foodplans[counter].donnerstagCheck){
+          this.donnerstagTotal = this.donnerstagTotal + this.foodplans[counter].donnerstagPreis
+        }
+        if(this.foodplans[counter].freitagsCheck){
+          this.freitagTotal = this.freitagTotal + this.foodplans[counter].freitagPreis
+        }
+        if(this.foodplans[counter].samstagsCheck){
+          this.samstagTotal = this.samstagTotal + this.foodplans[counter].samstagPreis
+        }
+        counter++;
+      }
     }
     
   }

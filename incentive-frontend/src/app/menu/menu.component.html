@@ -4,6 +4,9 @@
             <div *ngFor="let element of foodplans" class="spalte-header-box">
                 <p>{{element.name}}</p>
             </div>
+            <div class="spalte-header-box">
+                Gesamtpreise
+            </div>
         </div>
     </div>
     
@@ -35,31 +38,54 @@
             <div *ngFor="let element of foodplans;let index = index;trackByIndex" class="menu-zeile">
                 <div class="menu-zeile-box">
                     {{element.montagProdukt}}: {{element.montagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].montagCheck">
+                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].montagCheck" (change)="onCheckboxChange()">
                 </div>
                 <div class="menu-zeile-box">
                     {{element.dienstagProdukt}}: {{element.dienstagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].dienstagCheck">
+                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].dienstagCheck" (change)="onCheckboxChange()">
                 </div>
                 <div class="menu-zeile-box">
                     {{element.mittwochProdukt}}: {{element.mittwochPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].mitwochCheck">
+                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].mitwochCheck" (change)="onCheckboxChange()">
                 </div>
                 <div class="menu-zeile-box">
                     {{element.donnerstagProdukt}}: {{element.donnerstagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].donnerstagCheck">
+                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].donnerstagCheck" (change)="onCheckboxChange()">
                 </div>
                 <div class="menu-zeile-box">
                     {{element.freitagProdukt}}: {{element.freitagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].freitagsCheck">
+                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].freitagsCheck" (change)="onCheckboxChange()">
                 </div>
                 <div class="menu-zeile-box">
                     {{element.samstagProdukt}}: {{element.samstagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].samstagsCheck">
+                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].samstagsCheck" (change)="onCheckboxChange()">
                 </div>
             </div>
         </div>
     </div>
+    <div *ngIf="dataIsReady">
+        <div class="menu-zeile">
+            <div class="menu-zeile-box">
+                Gesamtpreis: {{montagTotal}}€
+            </div>
+            <div class="menu-zeile-box">
+                Gesamtpreis: {{dienstagTotal}}€
+            </div>
+            <div class="menu-zeile-box">
+                Gesamtpreis: {{mittwochTotal}}€
+            </div>
+            <div class="menu-zeile-box">
+                Gesamtpreis: {{donnerstagTotal}}€
+            </div>
+            <div class="menu-zeile-box">
+                Gesamtpreis: {{freitagTotal}}€
+            </div>
+            <div class="menu-zeile-box">
+                Gesamtpreis: {{samstagTotal}}€
+            </div>
+        </div>
+    </div>
+    
 
     <div class="bestellung-abschluss">
         <div class="bestellugs-button">
