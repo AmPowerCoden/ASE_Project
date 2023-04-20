@@ -31,11 +31,7 @@ import { DateTime } from 'luxon';
         freitagPreis: 22.09,
         samstagProdukt: "test",
         samstagPreis: 22.09,
-        start: DateTime.fromObject({
-          year: 2023,
-          month: 4,
-          day: 17
-        }),
+        start: "2023-04-17"
       });
     }
   }

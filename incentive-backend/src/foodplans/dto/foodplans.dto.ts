@@ -30,5 +30,5 @@ export class FoodplansDto{
     @ApiProperty()
     samstagPreis: number;
     @ApiProperty()
-    start: DateTime;
+    start: string;
 }

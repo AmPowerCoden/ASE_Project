@@ -35,7 +35,7 @@ export class foodplans extends FoodplansDto {
     @Prop({})
     samstagPreis: number;
     @Prop({required: true})
-    start: DateTime
+    start: string
     
     toJSON: () => foodplans;
 }

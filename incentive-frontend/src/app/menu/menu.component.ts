@@ -105,19 +105,46 @@ import { bestellung } from './bestellung';
 
     async getFoodplans(){
       try{
-        const date = DateTime.fromObject({
-          year: 2023,
-          month: 4,
-          day: 17
-        })
-        //this.foodplans = await firstValueFrom(this.http.get<foodplan[]>('/foodplans/' + this.dateToGet));
-        this.foodplans = await firstValueFrom(this.http.get<foodplan[]>('/foodplans'));
+        this.foodplans = await firstValueFrom(this.http.get<foodplan[]>('/foodplans/date/' + await this.getPreviousMonday()));
+        //this.foodplans = await firstValueFrom(this.http.get<foodplan[]>('/foodplans'));
         
       }
       catch (error: unknown) {
         this.errorMessage = (error as Error).message;
       }
     }
+
+    async getPreviousMonday()
+    {
+    var date = new Date();
+    var day = date.getDay();
+    var prevMonday = new Date();
+    if(date.getDay() == 0){
+        prevMonday.setDate(date.getDate());
+    }
+    else{
+        prevMonday.setDate(date.getDate() - (day-1));
+    }
+    let datestring = prevMonday.toDateString();
+    let splitted = datestring.split(" ");
+    let finishedString = "";
+    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dez"]
+    let counter = 1
+    for(let element of months)
+    {
+      if(splitted[1] == element){
+        if(element == "Oct" || element == "Nov" || element == "Dec"){
+          finishedString = splitted[3] + "-" + counter.toString() + "-" + splitted[2];
+        }
+        else
+        {
+          finishedString = splitted[3] + "-0" + counter.toString() + "-" + splitted[2];
+        }
+      }
+      counter++;   
+    }
+    return finishedString;
+    } //Stackoverflow
 
     async getBestellungen(){
       try{

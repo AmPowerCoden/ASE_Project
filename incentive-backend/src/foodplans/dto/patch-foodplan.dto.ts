@@ -27,5 +27,5 @@ export class patchFoodplanDto {
     @ApiProperty({ required: false })
     samstagPreis?: number;
     @ApiProperty({ required: true})
-    start?: DateTime;
+    start?: string;
 }

@@ -9,6 +9,7 @@ import { foodplans, FoodplansDocument } from './foodplans.schema';
 import mongoose, { Model } from 'mongoose';
 import { CreateFoodplanDto } from './dto/create-foodplan.dto';
 import { DateTime } from 'luxon';
+import { Logger } from '@nestjs/common';
 
 
   @Injectable()
@@ -29,8 +30,9 @@ import { DateTime } from 'luxon';
       return this.foodplansModel.find({});
     }
 
-    async findFoodplansDate(start: DateTime) {
-      return this.foodplansModel.find({start})
+    async findFoodplansDate(start: string) {
+      let foodplans = this.foodplansModel.find({start: start});
+      return foodplans
     }
 
     async createFoodplans(foodplanToCreate: CreateFoodplanDto) {
