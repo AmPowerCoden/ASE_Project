@@ -71,6 +71,10 @@
     margin-top: 18px;
     margin-left: 10px;
 }
+.vegetarian_checkbox {
+    float: left;
+    margin-top: 18px;
+}
 
 .produkt-text {
     float: left;
@@ -86,7 +90,11 @@
     width: 200px;
     line-height: 50px;
     height:50px;
-    
+    margin: 10px;
     color: white;
     border-radius: 15px;
+}
+
+.vegSchrift {
+    float: left;
 }

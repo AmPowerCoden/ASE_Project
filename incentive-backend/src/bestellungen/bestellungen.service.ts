@@ -34,10 +34,10 @@ import { CreateBestellungDto } from './dto/create-bestellung.dto';
     }
 
     async updateBestellung(personalnummer: number, update: Partial<bestellungen>) {
-      const user = await this.findOne(personalnummer);
-      Object.assign(user, update);
-      await user.save();
-      return user;
+      const bestellung = await this.findOne(personalnummer);
+      Object.assign(bestellung, update);
+      await bestellung.save();
+      return bestellung;
     }
 
     async deleteBestellung(personalnummer: number) {
@@ -49,6 +49,10 @@ import { CreateBestellungDto } from './dto/create-bestellung.dto';
         return;
       }
       await this.createBestellung(bestellungToCreate);
+    }
+
+    async deleteAllBestellungen() {
+      await this.bestellungenModel.remove({})
     }
   
 

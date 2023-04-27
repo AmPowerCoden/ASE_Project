@@ -1,87 +1,101 @@
 <div class="menu-wrapper">
-    <div *ngIf="dataIsReady">
-        <div class="menu-spalte-header" >
-            <div *ngFor="let element of foodplans" class="spalte-header-box">
-                <p>{{element.name}}</p>
+    <div id="pdfPrint">
+        <div *ngIf="dataIsReady">
+            <div class="menu-spalte-header" >
+                <div *ngFor="let element of foodplans" class="spalte-header-box">
+                    <p>{{element.name.split(";")[0]}}</p>
+                </div>
+                <div class="spalte-header-box">
+                    Gesamtpreise
+                </div>
             </div>
-            <div class="spalte-header-box">
-                Gesamtpreise
+        </div>
+        
+        
+        <div class="menu-line-header">
+            <div class="line-header-box">
+                Montag
+            </div>
+            <div class="line-header-box">
+                Dienstag
+            </div>
+            <div class="line-header-box">
+                Mittwoch
+            </div>
+            <div class="line-header-box">
+                Donnerstag
+            </div>
+            <div class="line-header-box">
+                Freitag
+            </div>
+            <div class="line-header-box">
+                Samstag
             </div>
         </div>
-    </div>
-    
-    
-    <div class="menu-line-header">
-        <div class="line-header-box">
-            Montag
-        </div>
-        <div class="line-header-box">
-            Dienstag
-        </div>
-        <div class="line-header-box">
-            Mittwoch
-        </div>
-        <div class="line-header-box">
-            Donnerstag
-        </div>
-        <div class="line-header-box">
-            Freitag
-        </div>
-        <div class="line-header-box">
-            Samstag
-        </div>
-    </div>
 
 
-    <div *ngIf="dataIsReady">
-        <div>
-            <div *ngFor="let element of foodplans;let index = index;trackByIndex" class="menu-zeile">
-                <div class="menu-zeile-box">
-                    {{element.montagProdukt}}: {{element.montagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].montagCheck" (change)="onCheckboxChange()">
-                </div>
-                <div class="menu-zeile-box">
-                    {{element.dienstagProdukt}}: {{element.dienstagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].dienstagCheck" (change)="onCheckboxChange()">
-                </div>
-                <div class="menu-zeile-box">
-                    {{element.mittwochProdukt}}: {{element.mittwochPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].mitwochCheck" (change)="onCheckboxChange()">
-                </div>
-                <div class="menu-zeile-box">
-                    {{element.donnerstagProdukt}}: {{element.donnerstagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].donnerstagCheck" (change)="onCheckboxChange()">
-                </div>
-                <div class="menu-zeile-box">
-                    {{element.freitagProdukt}}: {{element.freitagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].freitagsCheck" (change)="onCheckboxChange()">
-                </div>
-                <div class="menu-zeile-box">
-                    {{element.samstagProdukt}}: {{element.samstagPreis}}€
-                    <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].samstagsCheck" (change)="onCheckboxChange()">
+        <div *ngIf="dataIsReady">
+            <div>
+                <div *ngFor="let element of foodplans;let index = index;trackByIndex" class="menu-zeile">
+                    <div class="menu-zeile-box">
+                        {{element.montagProdukt}}: {{element.montagPreis}}€
+                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].montagCheck" (change)="onCheckboxChange()">
+                        <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
+                        <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="montagVegetarian">
+                    </div>
+                    <div class="menu-zeile-box">
+                        {{element.dienstagProdukt}}: {{element.dienstagPreis}}€
+                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].dienstagCheck" (change)="onCheckboxChange()">
+                        <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
+                        <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="dienstagVegetarian">
+                    </div>
+                    <div class="menu-zeile-box">
+                        {{element.mittwochProdukt}}: {{element.mittwochPreis}}€
+                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].mitwochCheck" (change)="onCheckboxChange()">
+                        <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
+                        <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="mittwochVegetarian">
+                    </div>
+                    <div class="menu-zeile-box">
+                        {{element.donnerstagProdukt}}: {{element.donnerstagPreis}}€
+                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].donnerstagCheck" (change)="onCheckboxChange()">
+                        <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
+                        <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="donnerstagVegetarian">
+                    </div>
+                    <div class="menu-zeile-box">
+                        {{element.freitagProdukt}}: {{element.freitagPreis}}€
+                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].freitagsCheck" (change)="onCheckboxChange()">
+                        <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
+                        <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="freitagVegetarian">
+                    </div>
+                    <div class="menu-zeile-box">
+                        {{element.samstagProdukt}}: {{element.samstagPreis}}€
+                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].samstagsCheck" (change)="onCheckboxChange()">
+                        <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
+                        <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="samstagVegetarian">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div *ngIf="dataIsReady">
-        <div class="menu-zeile">
-            <div class="menu-zeile-box">
-                Gesamtpreis: {{montagTotal}}€
-            </div>
-            <div class="menu-zeile-box">
-                Gesamtpreis: {{dienstagTotal}}€
-            </div>
-            <div class="menu-zeile-box">
-                Gesamtpreis: {{mittwochTotal}}€
-            </div>
-            <div class="menu-zeile-box">
-                Gesamtpreis: {{donnerstagTotal}}€
-            </div>
-            <div class="menu-zeile-box">
-                Gesamtpreis: {{freitagTotal}}€
-            </div>
-            <div class="menu-zeile-box">
-                Gesamtpreis: {{samstagTotal}}€
+        <div *ngIf="dataIsReady">
+            <div class="menu-zeile">
+                <div class="menu-zeile-box">
+                    Gesamtpreis: {{montagTotal}}€
+                </div>
+                <div class="menu-zeile-box">
+                    Gesamtpreis: {{dienstagTotal}}€
+                </div>
+                <div class="menu-zeile-box">
+                    Gesamtpreis: {{mittwochTotal}}€
+                </div>
+                <div class="menu-zeile-box">
+                    Gesamtpreis: {{donnerstagTotal}}€
+                </div>
+                <div class="menu-zeile-box">
+                    Gesamtpreis: {{freitagTotal}}€
+                </div>
+                <div class="menu-zeile-box">
+                    Gesamtpreis: {{samstagTotal}}€
+                </div>
             </div>
         </div>
     </div>
@@ -89,6 +103,7 @@
 
     <div class="bestellung-abschluss">
         <div class="bestellugs-button">
+            <button class="bestellung-button" (click)="createPDF();">Download as PDF</button>
             <button class="bestellung-button" (click)="bestellungAbsenden();">Bestellung Absenden</button>
             {{errorMessage}}
         </div>

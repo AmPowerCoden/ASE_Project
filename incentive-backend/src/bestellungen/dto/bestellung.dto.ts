@@ -16,4 +16,16 @@ export class BestellungenDto{
     freitag:string;
     @ApiProperty()
     samstag:string;
+    @ApiProperty()
+    montagGesamtpreis: number;
+    @ApiProperty()
+    dienstagGesamtpreis: number;
+    @ApiProperty()
+    mittwochGesamtpreis:number;
+    @ApiProperty()
+    donnerstagGesamtpreis: number;
+    @ApiProperty()
+    freitagGesamtpreis:number;
+    @ApiProperty()
+    samstagGesamtpreis:number;
 }

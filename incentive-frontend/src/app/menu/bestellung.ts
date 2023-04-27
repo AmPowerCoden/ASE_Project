@@ -6,4 +6,10 @@ export class bestellung{
     donnerstag!: string;
     freitag!:string;
     samstag!:string;
+    montagGesamtpreis!: number;
+    dienstagGesamtpreis!: number;
+    mittwochGesamtpreis!: number;
+    donnerstagGesamtpreis!: number;
+    freitagGesamtpreis!: number;
+    samstagGesamtpreis!: number;
 }

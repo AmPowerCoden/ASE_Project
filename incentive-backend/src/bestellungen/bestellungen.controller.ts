@@ -17,6 +17,7 @@ import { CreateBestellungDto } from "./dto/create-bestellung.dto";
 import { BestellungsDocument, bestellungen } from "./bestellungen.schema";
 import { patchBestellungDto } from './dto/patch-bestellung.dto';
 
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller('bestellungen')
 @ApiBearerAuth()
@@ -70,4 +71,6 @@ export class bestellungenController{
     const { personalnummer, ...result } = bestellung.toJSON();
     return result;
   }
+
+
 }

@@ -18,20 +18,20 @@ import { DateTime } from 'luxon';
   
     async onModuleInit() {
       await this.foodService.ensureFoodplan({
-        name: "test",
-        montagProdukt: "test",
-        montagPreis: 22.09,
-        dienstagProdukt: "test",
-        dienstagPreis: 22.09,
-        mittwochProdukt: "test",
-        mittwochPreis: 22.09,
-        donnerstagProdukt: "test",
-        donnerstagPreis: 22.09,
-        freitagProdukt: "test",
-        freitagPreis: 22.09,
-        samstagProdukt: "test",
-        samstagPreis: 22.09,
-        start: "2023-04-17"
+        name: "Menü 1;2023-04-24",
+        montagProdukt: "Gulasch",
+        montagPreis: 4.55,
+        dienstagProdukt: "Geschnetzeltes",
+        dienstagPreis: 4.35,
+        mittwochProdukt: "Burger",
+        mittwochPreis: 4.40,
+        donnerstagProdukt: "Sphagetti",
+        donnerstagPreis: 4.45,
+        freitagProdukt: "Brezen",
+        freitagPreis: 4.50,
+        samstagProdukt: "Chiilie",
+        samstagPreis: 4.55,
+        start: "2023-04-24"
       });
     }
   }

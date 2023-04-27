@@ -7,13 +7,14 @@ import { TransactionModule } from './transactions/transaction.module';
 import { SharedModule, LoggerService } from './shared/shared.module';
 import { FoodplanModule } from './foodplans/foodplans.module';
 import { BestellungenModule } from './bestellungen/bestellungen.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     SharedModule,
     ConfigModule.forRoot(),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule, SharedModule],
+      imports: [ConfigModule, SharedModule, ScheduleModule.forRoot()],
       inject: [ConfigService, LoggerService],
       useFactory: async (configService: ConfigService, logger: LoggerService): Promise<MongooseModuleOptions> => {
         logger.setContext("MongooseModule.factory")

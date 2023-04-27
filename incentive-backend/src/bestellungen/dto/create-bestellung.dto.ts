@@ -15,4 +15,16 @@ export class CreateBestellungDto {
     freitag: string;
     @ApiProperty({ required: false })
     samstag: string;
+    @ApiProperty({ required: false })
+    montagGesamtpreis: number;
+    @ApiProperty({ required: false })
+    dienstagGesamtpreis: number;
+    @ApiProperty({ required: false })
+    mittwochGesamtpreis: number;
+    @ApiProperty({ required: false })
+    donnerstagGesamtpreis: number;
+    @ApiProperty({ required: false })
+    freitagGesamtpreis: number;
+    @ApiProperty({ required: false })
+    samstagGesamtpreis: number;
 }

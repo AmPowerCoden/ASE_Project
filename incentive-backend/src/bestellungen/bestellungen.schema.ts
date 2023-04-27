@@ -21,6 +21,18 @@ export class bestellungen extends BestellungenDto {
     freitag: string;
     @Prop({})
     samstag: string;
+    @Prop({})
+    montagGesamtpreis: number;
+    @Prop({})
+    dienstagGesamtpreis: number;
+    @Prop({})
+    mittwochGesamtpreis: number;
+    @Prop({})
+    donnerstagGesamtpreis: number;
+    @Prop({})
+    freitagGesamtpreis: number;
+    @Prop({})
+    samstagGesamtpreis: number;
     
     toJSON: () => bestellungen;
 }

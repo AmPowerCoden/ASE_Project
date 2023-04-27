@@ -11,6 +11,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; // Import the FormsModule
 import { SharedModule } from '../shared/shared.module';
 import { bestellung } from './bestellung';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -27,7 +29,7 @@ import { bestellung } from './bestellung';
     })}
     errorMessage: string = "";
     public foodplans!: foodplan[];
-    public bestellungen: bestellung = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag: "", personalnummer: Number(this.authService.getPersonalnummer())};
+    public bestellungen: bestellung = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag: "", personalnummer: Number(this.authService.getPersonalnummer()), montagGesamtpreis: 0, dienstagGesamtpreis: 0, mittwochGesamtpreis: 0, donnerstagGesamtpreis: 0, freitagGesamtpreis: 0, samstagGesamtpreis: 0};
     dataIsReady: boolean = false;
     public montagsBestellung: string = "";
     public dienstagBestellung: string = "";
@@ -35,14 +37,21 @@ import { bestellung } from './bestellung';
     public donnerstagBestellung: string = "";
     public freitagBestellung: string = "";
     public samstagBestellung: string = "";
-    bestellungToUpdate: { montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string} = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"" };
-    bestellungToCreate: { personalnummer: number, montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string} = { personalnummer: Number(this.authService.getPersonalnummer()), montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"" };
+    bestellungToUpdate: { montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string, montagGesamtpreis: number, dienstagGesamtpreis: number, mittwochGesamtpreis: number, donnerstagGesamtpreis: number, freitagGesamtpreis: number, samstagGesamtpreis: number} = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"", montagGesamtpreis: 0, dienstagGesamtpreis: 0, mittwochGesamtpreis: 0, donnerstagGesamtpreis: 0, freitagGesamtpreis: 0, samstagGesamtpreis: 0 };
+    bestellungToCreate: { personalnummer: number, montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string, montagGesamtpreis: number, dienstagGesamtpreis: number, mittwochGesamtpreis: number, donnerstagGesamtpreis: number, freitagGesamtpreis: number, samstagGesamtpreis: number} = { personalnummer: Number(this.authService.getPersonalnummer()), montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"", montagGesamtpreis: 0, dienstagGesamtpreis: 0, mittwochGesamtpreis: 0, donnerstagGesamtpreis: 0, freitagGesamtpreis: 0, samstagGesamtpreis: 0 };
     public montagTotal: number = 0;
     public dienstagTotal: number = 0;
     public mittwochTotal: number = 0;
     public donnerstagTotal: number = 0;
     public freitagTotal: number = 0;
     public samstagTotal: number = 0;
+    public montagVegetarian = false;
+    public dienstagVegetarian = false;
+    public mittwochVegetarian = false;
+    public donnerstagVegetarian = false;
+    public freitagVegetarian = false;
+    public samstagVegetarian = false;
+
 
 
     constructor(
@@ -56,6 +65,33 @@ import { bestellung } from './bestellung';
       await this.getBestellungen();
       let counter = 0;
       for (let foodplan of this.foodplans){
+
+        if(foodplan.name.includes("Menü 2")){
+          if(this.bestellungen.montag.includes("(Vegetarian)"))
+          {
+            this.montagVegetarian = true;
+          }
+          if(this.bestellungen.dienstag.includes("(Vegetarian)"))
+          {
+            this.dienstagVegetarian = true;
+          }
+          if(this.bestellungen.mittwoch.includes("(Vegetarian)"))
+          {
+            this.mittwochVegetarian = true;
+          }
+          if(this.bestellungen.donnerstag.includes("(Vegetarian)"))
+          {
+            this.donnerstagVegetarian = true;
+          }
+          if(this.bestellungen.freitag.includes("(Vegetarian)"))
+          {
+            this.freitagVegetarian = true;
+          }
+          if(this.bestellungen.samstag.includes("(Vegetarian)"))
+          {
+            this.samstagVegetarian = true;
+          }
+        }
 
         if(this.bestellungen.montag.includes(foodplan.name)){
           this.foodplans[counter].montagCheck = true
@@ -148,11 +184,6 @@ import { bestellung } from './bestellung';
 
     async getBestellungen(){
       try{
-        const date = DateTime.fromObject({
-          year: 2023,
-          month: 4,
-          day: 17
-        })
         this.bestellungen = await firstValueFrom(this.http.get<bestellung>('/bestellungen/' + this.authService.getPersonalnummer()))
       }
       catch (error: unknown) {
@@ -170,24 +201,49 @@ import { bestellung } from './bestellung';
       try{
         let counter = 0;
         for (let foodplan of this.foodplans){
-
+          let  vegetarien = "";
           if(this.foodplans[counter].montagCheck){
-            this.montagsBestellung = this.montagsBestellung + foodplan.name
+            if(foodplan.name.includes("Menü 2") && this.montagVegetarian){
+              vegetarien = "(Vegetarian)"
+              alert(vegetarien)
+            }
+            this.montagsBestellung = this.montagsBestellung + foodplan.name + vegetarien
+            vegetarien = "";
           }
           if(this.foodplans[counter].dienstagCheck){
-            this.dienstagBestellung = this.dienstagBestellung + foodplan.name
+            if(foodplan.name.includes("Menü 2") && this.dienstagVegetarian){
+              vegetarien = "(Vegetarian)"
+            }
+            this.dienstagBestellung = this.dienstagBestellung + foodplan.name + vegetarien
+            vegetarien = "";
           }
           if(this.foodplans[counter].mitwochCheck){
-            this.mittwochBestellung = this.mittwochBestellung + foodplan.name
+            if(foodplan.name.includes("Menü 2") && this.mittwochVegetarian){
+              vegetarien = "(Vegetarian)"
+            }
+            this.mittwochBestellung = this.mittwochBestellung + foodplan.name + vegetarien
+            vegetarien = "";
           }
           if(this.foodplans[counter].donnerstagCheck){
-            this.donnerstagBestellung = this.donnerstagBestellung + foodplan.name
+            if(foodplan.name.includes("Menü 2") && this.donnerstagVegetarian){
+              vegetarien = "(Vegetarian)"
+            }
+            this.donnerstagBestellung = this.donnerstagBestellung + foodplan.name + vegetarien
+            vegetarien = "";
           }
           if(this.foodplans[counter].freitagsCheck){
-            this.freitagBestellung = this.freitagBestellung + foodplan.name
+            if(foodplan.name.includes("Menü 2") && this.freitagVegetarian){
+              vegetarien = "(Vegetarian)"
+            }
+            this.freitagBestellung = this.freitagBestellung + foodplan.name + vegetarien
+            vegetarien = "";
           }
           if(this.foodplans[counter].samstagsCheck){
-            this.samstagBestellung = this.samstagBestellung + foodplan.name
+            if(foodplan.name.includes("Menü 2") && this.samstagVegetarian){
+              vegetarien = "(Vegetarian)"
+            }
+            this.samstagBestellung = this.samstagBestellung + foodplan.name + vegetarien
+            vegetarien = "";
           }
           counter++;
         }
@@ -197,6 +253,12 @@ import { bestellung } from './bestellung';
         this.bestellungToUpdate.donnerstag = this.donnerstagBestellung;
         this.bestellungToUpdate.freitag = this.freitagBestellung;
         this.bestellungToUpdate.samstag = this.samstagBestellung;
+        this.bestellungToUpdate.montagGesamtpreis = this.montagTotal;
+        this.bestellungToUpdate.dienstagGesamtpreis = this.dienstagTotal;
+        this.bestellungToUpdate.mittwochGesamtpreis = this.mittwochTotal;
+        this.bestellungToUpdate.donnerstagGesamtpreis = this.donnerstagTotal;
+        this.bestellungToUpdate.freitagGesamtpreis = this.freitagTotal;
+        this.bestellungToUpdate.samstagGesamtpreis = this.samstagTotal;
         const result = await firstValueFrom(this.http.patch<bestellung>('/bestellungen/' + Number(this.authService.getPersonalnummer()), this.bestellungToUpdate))
         alert("Ihre Bestellung für nächste Woche wurde Aktualisiert")
       }
@@ -209,6 +271,12 @@ import { bestellung } from './bestellung';
           this.bestellungToCreate.donnerstag = this.donnerstagBestellung;
           this.bestellungToCreate.freitag = this.freitagBestellung;
           this.bestellungToCreate.samstag = this.samstagBestellung;
+          this.bestellungToCreate.montagGesamtpreis = this.montagTotal;
+          this.bestellungToCreate.dienstagGesamtpreis = this.dienstagTotal;
+          this.bestellungToCreate.mittwochGesamtpreis = this.mittwochTotal;
+          this.bestellungToCreate.donnerstagGesamtpreis = this.donnerstagTotal;
+          this.bestellungToCreate.freitagGesamtpreis = this.freitagTotal;
+          this.bestellungToCreate.samstagGesamtpreis = this.samstagTotal;
 
           const result = await firstValueFrom(this.http.post<bestellung>("/bestellungen", this.bestellungToCreate))
           alert("Ihre Bestellung wurde in der Datenbank angelegt!")
@@ -254,6 +322,20 @@ import { bestellung } from './bestellung';
         }
         counter++;
       }
+    }
+
+    async createPDF() {
+      let DATA: any = document.getElementById('pdfPrint');
+      html2canvas(DATA).then((canvas) => {
+        let fileWidth = 1080;
+        let fileHeight = (canvas.height * fileWidth) / canvas.width;
+        const FILEURI = canvas.toDataURL('image/png');
+        let PDF = new jsPDF('p', 'mm', [1920, 1080]);
+        let position = 0;
+        PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+        PDF.save('essensbestellung:' + this.getPreviousMonday() + '.pdf');
+    });
+
     }
     
   }

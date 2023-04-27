@@ -18,12 +18,18 @@ import { bestellungenService } from './bestellungen.service';
     async onModuleInit() {
       await this.bestellungenService.ensureBestellung({
         personalnummer: 1,
-        montag: "test; Menü 2",
-        dienstag: "test",
-        mittwoch: "test",
-        donnerstag: "Menü 2",
-        freitag: "test",
-        samstag: "test",
+        montag: "",
+        dienstag: "",
+        mittwoch: "",
+        donnerstag: "",
+        freitag: "",
+        samstag: "",
+        montagGesamtpreis: 0,
+        dienstagGesamtpreis: 0,
+        mittwochGesamtpreis: 0,
+        donnerstagGesamtpreis: 0,
+        freitagGesamtpreis: 0,
+        samstagGesamtpreis: 0,
       });
     }
   }
