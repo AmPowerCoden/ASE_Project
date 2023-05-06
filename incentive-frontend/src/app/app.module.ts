@@ -15,6 +15,8 @@ import { AppHttpClient } from './shared/http-client.service';
 import { AuthService } from './shared/auth.service';
 import { RegisterComponent } from './register/register.component';
 import { MenuComponent } from './menu/menu.component';
+import { PlancreationComponent } from './plancreation/plancreation.component';
+import { OrderComponent } from './orders/order.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { MenuComponent } from './menu/menu.component';
     HeaderComponent,
     ProfileComponent,
     FoodplansComponent,
-    MenuComponent
+    MenuComponent,
+    PlancreationComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

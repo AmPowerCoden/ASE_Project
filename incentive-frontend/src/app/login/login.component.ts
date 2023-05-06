@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     try {
       const result = await firstValueFrom(this.http.post<{ access_token: string, userId: string, personalnummer: number }>("/auth/login", this.userToLogin));
       this.authService.setAccessToken(result.access_token, result.userId, result.personalnummer);
-      await this.router.navigate(["/profile"]);
+      await this.router.navigate(["/menu"]);
     } catch (error: unknown) {
       this.errorMessage = (error as Error).message;
     }
