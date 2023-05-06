@@ -1,0 +1,74 @@
+<div class="orders-wrapper">
+    <div class="order">
+        <div class="order-zeile-box-header">
+            personalnummer
+        </div>
+        <div class="order-zeile-box-header">
+            Monatg
+        </div>
+        <div class="order-zeile-box-header">
+            Dienstag
+        </div>
+        <div class="order-zeile-box-header">
+            Mittwoch
+        </div>
+        <div class="order-zeile-box-header">
+            Donnerstag
+        </div>
+        <div class="order-zeile-box-header">
+            Freitag
+        </div>
+        <div class="order-zeile-box-header">
+            Samstag
+        </div>
+    </div>
+    <div class="order" *ngFor="let element of bestellungen">
+        <div class="order-zeile-box">
+            {{element.personalnummer}}
+        </div>
+        <div class="order-zeile-box">
+            {{element.montag.split(";")[0]}}
+        </div>
+        <div class="order-zeile-box">
+            {{element.dienstag.split(";")[0]}}
+        </div>
+        <div class="order-zeile-box">
+            {{element.mittwoch.split(";")[0]}}
+        </div>
+        <div class="order-zeile-box">
+            {{element.donnerstag.split(";")[0]}}
+        </div>
+        <div class="order-zeile-box">
+            {{element.freitag.split(";")[0]}}
+        </div>
+        <div class="order-zeile-box">
+            {{element.samstag.split(";")[0]}}
+        </div>
+    </div>
+
+    <hr class="trennlinie">
+
+    <div *ngFor="let element of Zusammenfassung" class="zusammenfassung-zeile">
+            <div class="zusammenfassung-zeile-box">
+                {{element.name}}
+            </div>
+            <div class="zusammenfassung-zeile-box">
+                {{element.countMontag}}
+            </div>
+            <div class="zusammenfassung-zeile-box">
+                {{element.countDienstag}}
+            </div>
+            <div class="zusammenfassung-zeile-box">
+                {{element.countMittwoch}}
+            </div>
+            <div class="zusammenfassung-zeile-box">
+                {{element.countDonnerstag}}
+            </div>
+            <div class="zusammenfassung-zeile-box">
+                {{element.countFreitag}}
+            </div>
+            <div class="zusammenfassung-zeile-box">
+                {{element.countSamstag}}
+            </div>
+    </div>
+</div>
