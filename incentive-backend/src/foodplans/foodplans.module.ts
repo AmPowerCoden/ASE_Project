@@ -18,7 +18,7 @@ import { DateTime } from 'luxon';
   
     async onModuleInit() {
       await this.foodService.ensureFoodplan({
-        name: "Menü 1;2023-04-24",
+        name: "Menü 1;2023-05-01",
         montagProdukt: "Gulasch",
         montagPreis: 4.55,
         dienstagProdukt: "Geschnetzeltes",
@@ -31,7 +31,7 @@ import { DateTime } from 'luxon';
         freitagPreis: 4.50,
         samstagProdukt: "Chiilie",
         samstagPreis: 4.55,
-        start: "2023-04-24"
+        start: "2023-05-01"
       });
     }
   }

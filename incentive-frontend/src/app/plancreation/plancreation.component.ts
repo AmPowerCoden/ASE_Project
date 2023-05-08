@@ -11,6 +11,9 @@ import { AuthService } from "../shared/auth.service";
   })
   export class PlancreationComponent implements OnInit {
 
+    foodplanToCreate: { name: string, montag: string, montagPreis: number, dienstag: string, dienstagPreis: number, mittwoch: string, mittwochPreis: number, donnerstag: string, donnerstagPreis: number, freitag: string, freitagPreis: number, samstag: string, samstagPreis: number, startdate: string } = { name: "", montag: "", montagPreis: 0, dienstag: "", dienstagPreis: 0, mittwoch: "", mittwochPreis: 0, donnerstag: "", donnerstagPreis: 0, freitag: "", freitagPreis: 0, samstag: "", samstagPreis: 0, startdate: ""};
+    errorMessage!: string;
+
     constructor(
         private readonly http: AppHttpClient,
         private readonly router: Router,
@@ -18,5 +21,9 @@ import { AuthService } from "../shared/auth.service";
       ) {}
 
       async ngOnInit(): Promise<void> {
+      }
+
+      async foodplanRegister(){
+        alert(this.foodplanToCreate.startdate)
       }
   }
