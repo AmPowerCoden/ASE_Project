@@ -39,37 +39,37 @@
                 <div *ngFor="let element of foodplans;let index = index;trackByIndex" class="menu-zeile">
                     <div class="menu-zeile-box">
                         {{element.montagProdukt}}: {{element.montagPreis}}€
-                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].montagCheck" (change)="onCheckboxChange()">
+                        <input *ngIf="element.montagProdukt != ''" class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].montagCheck" (change)="onCheckboxChange()">
                         <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
                         <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="montagVegetarian">
                     </div>
                     <div class="menu-zeile-box">
                         {{element.dienstagProdukt}}: {{element.dienstagPreis}}€
-                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].dienstagCheck" (change)="onCheckboxChange()">
+                        <input *ngIf="element.dienstagProdukt != ''" class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].dienstagCheck" (change)="onCheckboxChange()">
                         <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
                         <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="dienstagVegetarian">
                     </div>
                     <div class="menu-zeile-box">
                         {{element.mittwochProdukt}}: {{element.mittwochPreis}}€
-                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].mitwochCheck" (change)="onCheckboxChange()">
+                        <input *ngIf="element.mittwochProdukt != ''" class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].mitwochCheck" (change)="onCheckboxChange()">
                         <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
                         <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="mittwochVegetarian">
                     </div>
                     <div class="menu-zeile-box">
                         {{element.donnerstagProdukt}}: {{element.donnerstagPreis}}€
-                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].donnerstagCheck" (change)="onCheckboxChange()">
+                        <input *ngIf="element.donnerstagProdukt != ''" class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].donnerstagCheck" (change)="onCheckboxChange()">
                         <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
                         <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="donnerstagVegetarian">
                     </div>
                     <div class="menu-zeile-box">
                         {{element.freitagProdukt}}: {{element.freitagPreis}}€
-                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].freitagsCheck" (change)="onCheckboxChange()">
+                        <input *ngIf="element.freitagProdukt != ''" class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].freitagsCheck" (change)="onCheckboxChange()">
                         <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
                         <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="freitagVegetarian">
                     </div>
                     <div class="menu-zeile-box">
                         {{element.samstagProdukt}}: {{element.samstagPreis}}€
-                        <input class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].samstagsCheck" (change)="onCheckboxChange()">
+                        <input *ngIf="element.samstagProdukt != ''" class="product_checkbox" type="checkbox" [(ngModel)]="foodplans[index].samstagsCheck" (change)="onCheckboxChange()">
                         <p *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegSchrift">Veg:</p>
                         <input *ngIf="element.name.split(';')[0] == 'Menü 2'" class="vegetarian_checkbox" type="checkbox" [(ngModel)]="samstagVegetarian">
                     </div>

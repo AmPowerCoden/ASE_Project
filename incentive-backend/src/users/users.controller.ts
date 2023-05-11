@@ -40,9 +40,15 @@ export class UsersController {
 
   @Get(':email')
   @ApiResponse({ type: () => UserDto })
-  @ApiParam({ name: 'email' })
   async getUserWithMail(@Request() request, @Param('email') email: string) {
     const user = await this.userService.findOne(email);
+    return this.userToRest(user);
+  }
+
+  @Get('/personalnummer/:personalnummer')
+  @ApiResponse({ type: () => UserDto })
+  async getFoodplanByName(@Request() request, @Param('personalnummer') personalnummer: number){
+    const user = await this.userService.findOneByPersonalnummer(personalnummer);
     return this.userToRest(user);
   }
 

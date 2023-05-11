@@ -30,6 +30,7 @@ import { bestellungenService } from './bestellungen.service';
         donnerstagGesamtpreis: 0,
         freitagGesamtpreis: 0,
         samstagGesamtpreis: 0,
+        date: "2023-05-08"
       });
     }
   }

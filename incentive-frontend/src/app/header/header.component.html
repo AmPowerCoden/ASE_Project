@@ -2,10 +2,9 @@
   <mat-toolbar-row>
     <mat-icon>card_giftcard</mat-icon>
     
-    <a mat-stroked-button class="button" routerLink="/profile">Ihr Profil</a>
     <a mat-stroked-button class="button" routerLink="/menu">Menüplan nächste Woche</a>
-    <a mat-stroked-button class="button" routerLink="/orders">Kundenbestellungen für diese Woche</a>
-    <a mat-stroked-button class="button" routerLink="/plancreation">Neuen Menüplan erstellen</a>
+    <a mat-stroked-button class="button" routerLink="/orders" *ngIf="this.adminState">Kundenbestellungen für diese Woche</a>
+    <a mat-stroked-button class="button" routerLink="/plancreation" *ngIf="this.adminState">Neuen Menüplan erstellen</a>
 
     <span class="spacer"></span>
 

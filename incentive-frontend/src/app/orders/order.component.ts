@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AppHttpClient } from "../shared/http-client.service";
 import { Router } from "@angular/router";
 import { AuthService } from "../shared/auth.service";
-import { bestellung } from "../menu/bestellung";
+import { bestellung } from "../shared/bestellung";
 import { firstValueFrom } from "rxjs";
 
 
@@ -17,7 +17,7 @@ import { firstValueFrom } from "rxjs";
     public errorMsg!: string;
     public menuNames: string[] = [];
     public Zusammenfassung: {name: string, countMontag: number, countDienstag: number, countMittwoch: number, countDonnerstag: number, countFreitag: number, countSamstag: number}[] = [];
-    
+    public adminState!: boolean;
 
     constructor(
         private readonly http: AppHttpClient,
@@ -26,6 +26,7 @@ import { firstValueFrom } from "rxjs";
       ) {}
 
       async ngOnInit(): Promise<void> {
+        this.adminState = await this.isAdmin();
         await this.getBestellungen();
         await this.getMenuNames();
         await this.getZusammenfassung();
@@ -43,23 +44,53 @@ import { firstValueFrom } from "rxjs";
     getMenuNames(){
         try{
             for(let element of this.bestellungen){
-                if(!(this.menuNames.some(x => x === element.montag.split(";")[0]))){
-                    this.menuNames.push(element.montag.split(";")[0])
+
+                let menues = element.montag.split(";");
+                for(let el of menues)
+                {
+                    if(!(this.menuNames.some(x => x === el))){
+                        this.menuNames.push(el)
+                    }
                 }
-                if(!(this.menuNames.some(x => x === element.dienstag.split(";")[0]))){
-                    this.menuNames.push(element.dienstag.split(";")[0])
+
+                menues = element.dienstag.split(";")
+                for(let el of menues)
+                {
+                    if(!(this.menuNames.some(x => x === el))){
+                        this.menuNames.push(el)
+                    }
                 }
-                if(!(this.menuNames.some(x => x === element.mittwoch.split(";")[0]))){
-                    this.menuNames.push(element.mittwoch.split(";")[0])
+
+                menues = element.mittwoch.split(";")
+                for(let el of menues)
+                {
+                    if(!(this.menuNames.some(x => x === el))){
+                        this.menuNames.push(el)
+                    }
                 }
-                if(!(this.menuNames.some(x => x === element.donnerstag.split(";")[0]))){
-                    this.menuNames.push(element.donnerstag.split(";")[0])
+
+                menues = element.donnerstag.split(";")
+                for(let el of menues)
+                {
+                    if(!(this.menuNames.some(x => x === el))){
+                        this.menuNames.push(el)
+                    }
                 }
-                if(!(this.menuNames.some(x => x === element.freitag.split(";")[0]))){
-                    this.menuNames.push(element.freitag.split(";")[0])
+
+                menues = element.freitag.split(";")
+                for(let el of menues)
+                {
+                    if(!(this.menuNames.some(x => x === el))){
+                        this.menuNames.push(el)
+                    }
                 }
-                if(!(this.menuNames.some(x => x === element.samstag.split(";")[0]))){
-                    this.menuNames.push(element.samstag.split(";")[0])
+
+                menues = element.samstag.split(";")
+                for(let el of menues)
+                {
+                    if(!(this.menuNames.some(x => x === el))){
+                        this.menuNames.push(el)
+                    }
                 }
             }
         }
@@ -67,10 +98,16 @@ import { firstValueFrom } from "rxjs";
         catch (error: unknown) {
             this.errorMsg = (error as Error).message
         }
+
+        this.menuNames.forEach((item, index) => {
+            if(item === "" ) this.menuNames.splice(index, 1)
+        });
+
       }
 
     async getZusammenfassung(){
         try{
+
             for(let element of this.menuNames)
             {
                 let montagsCounter = 0;
@@ -80,24 +117,31 @@ import { firstValueFrom } from "rxjs";
                 let freitagsCounter = 0;
                 let samstagsCounter = 0;
                     for(let bestellungselement of this.bestellungen){
-                    if(bestellungselement.montag){
-                        montagsCounter++;
-                    }
-                    if(bestellungselement.dienstag){
-                        dienstagsCounter++;
-                    }
-                    if(bestellungselement.mittwoch){
-                        mittwochsCounter++;
-                    }
-                    if(bestellungselement.donnerstag){
-                        donnerstagsCounter++;
-                    }
-                    if(bestellungselement.freitag){
-                        freitagsCounter++;
-                    }
-                    if(bestellungselement.samstag){
-                        samstagsCounter++;
-                    }
+                        let orders = bestellungselement.montag.split(";");
+                        if(bestellungselement.montag.split(";").includes(element)){
+                            montagsCounter++;
+                        }
+                        
+                    
+                        if(bestellungselement.dienstag.split(";").includes(element)){
+                            dienstagsCounter++;
+                        }
+
+                        if(bestellungselement.mittwoch.split(";").includes(element)){
+                            mittwochsCounter++;
+                        }
+
+                        if(bestellungselement.donnerstag.split(";").includes(element)){
+                            donnerstagsCounter++;
+                        }
+
+                        if(bestellungselement.freitag.split(";").includes(element)){
+                            freitagsCounter++;
+                        }
+
+                        if(bestellungselement.samstag.split(";").includes(element)){
+                            samstagsCounter++;
+                        }
                 }
                 this.Zusammenfassung.push({name: element, countMontag: montagsCounter, countDienstag: dienstagsCounter, countMittwoch: mittwochsCounter, countDonnerstag: donnerstagsCounter, countFreitag: freitagsCounter, countSamstag: samstagsCounter})
                 
@@ -109,5 +153,14 @@ import { firstValueFrom } from "rxjs";
         
         
         
+      }
+
+      async isAdmin(){
+        if (this.authService.getRoles()?.includes("administrator")){
+          return true;
+        }
+        else{
+          return false;
+        }
       }
   }

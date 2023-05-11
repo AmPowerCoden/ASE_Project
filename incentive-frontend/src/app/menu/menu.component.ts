@@ -4,13 +4,13 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { AuthService } from '../shared/auth.service';
 import { AppHttpClient } from '../shared/http-client.service';
 import { DateTime } from 'luxon';
-import { foodplan } from '../menu/foodplan';
+import { foodplan } from '../shared/foodplan';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; // Import the FormsModule
 import { SharedModule } from '../shared/shared.module';
-import { bestellung } from './bestellung';
+import { bestellung } from '../shared/bestellung';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -29,7 +29,7 @@ import html2canvas from 'html2canvas';
     })}
     errorMessage: string = "";
     public foodplans!: foodplan[];
-    public bestellungen: bestellung = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag: "", personalnummer: Number(this.authService.getPersonalnummer()), montagGesamtpreis: 0, dienstagGesamtpreis: 0, mittwochGesamtpreis: 0, donnerstagGesamtpreis: 0, freitagGesamtpreis: 0, samstagGesamtpreis: 0};
+    public bestellungen: bestellung = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag: "", personalnummer: Number(this.authService.getPersonalnummer()), montagGesamtpreis: 0, dienstagGesamtpreis: 0, mittwochGesamtpreis: 0, donnerstagGesamtpreis: 0, freitagGesamtpreis: 0, samstagGesamtpreis: 0, date: ""};
     dataIsReady: boolean = false;
     public montagsBestellung: string = "";
     public dienstagBestellung: string = "";
@@ -37,8 +37,8 @@ import html2canvas from 'html2canvas';
     public donnerstagBestellung: string = "";
     public freitagBestellung: string = "";
     public samstagBestellung: string = "";
-    bestellungToUpdate: { montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string, montagGesamtpreis: number, dienstagGesamtpreis: number, mittwochGesamtpreis: number, donnerstagGesamtpreis: number, freitagGesamtpreis: number, samstagGesamtpreis: number} = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"", montagGesamtpreis: 0, dienstagGesamtpreis: 0, mittwochGesamtpreis: 0, donnerstagGesamtpreis: 0, freitagGesamtpreis: 0, samstagGesamtpreis: 0 };
-    bestellungToCreate: { personalnummer: number, montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string, montagGesamtpreis: number, dienstagGesamtpreis: number, mittwochGesamtpreis: number, donnerstagGesamtpreis: number, freitagGesamtpreis: number, samstagGesamtpreis: number} = { personalnummer: Number(this.authService.getPersonalnummer()), montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"", montagGesamtpreis: 0, dienstagGesamtpreis: 0, mittwochGesamtpreis: 0, donnerstagGesamtpreis: 0, freitagGesamtpreis: 0, samstagGesamtpreis: 0 };
+    bestellungToUpdate: { montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string, montagGesamtpreis: number, dienstagGesamtpreis: number, mittwochGesamtpreis: number, donnerstagGesamtpreis: number, freitagGesamtpreis: number, samstagGesamtpreis: number, date: string} = { montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"", montagGesamtpreis: 0, dienstagGesamtpreis: 0, mittwochGesamtpreis: 0, donnerstagGesamtpreis: 0, freitagGesamtpreis: 0, samstagGesamtpreis: 0, date: "" };
+    bestellungToCreate: { personalnummer: number, montag: string, dienstag: string, mittwoch: string, donnerstag: string, freitag: string, samstag: string, montagGesamtpreis: number, dienstagGesamtpreis: number, mittwochGesamtpreis: number, donnerstagGesamtpreis: number, freitagGesamtpreis: number, samstagGesamtpreis: number, date: string} = { personalnummer: Number(this.authService.getPersonalnummer()), montag: "", dienstag: "", mittwoch: "", donnerstag: "", freitag: "", samstag:"", montagGesamtpreis: 0, dienstagGesamtpreis: 0, mittwochGesamtpreis: 0, donnerstagGesamtpreis: 0, freitagGesamtpreis: 0, samstagGesamtpreis: 0, date: "" };
     public montagTotal: number = 0;
     public dienstagTotal: number = 0;
     public mittwochTotal: number = 0;
@@ -63,7 +63,8 @@ import html2canvas from 'html2canvas';
      async ngOnInit(): Promise<void> {
       await this.getFoodplans();
       await this.getBestellungen();
-      let counter = 0;
+      if(this.bestellungen.date == await this.getPreviousMonday()){
+        let counter = 0;
       for (let foodplan of this.foodplans){
 
         if(foodplan.name.includes("Menü 2")){
@@ -125,6 +126,8 @@ import html2canvas from 'html2canvas';
         }
         counter++;
       }
+      }
+      
       
       await this.onCheckboxChange()
       this.dataIsReady = true;
@@ -192,12 +195,17 @@ import html2canvas from 'html2canvas';
     }
 
     async bestellungAbsenden(){
+
+      let today = new Date();
+
+      if(today > new Date( await this.getPreviousMonday() ) && today < new Date(new Date( await this.getPreviousMonday()).getTime() + (1000 * 60 * 60 * 88) )) {
       this.bestellungToUpdate.montag = "";
       this.bestellungToUpdate.dienstag = "";
       this.bestellungToUpdate.mittwoch = "";
       this.bestellungToUpdate.donnerstag = "";
       this.bestellungToUpdate.freitag = "";
       this.bestellungToUpdate.samstag = "";
+      this.bestellungToUpdate.date = await this.getPreviousMonday()
       try{
         let counter = 0;
         for (let foodplan of this.foodplans){
@@ -207,42 +215,42 @@ import html2canvas from 'html2canvas';
               vegetarien = "(Vegetarian)"
               alert(vegetarien)
             }
-            this.montagsBestellung = this.montagsBestellung + foodplan.name + vegetarien
+            this.montagsBestellung = this.montagsBestellung + foodplan.name + vegetarien + ";"
             vegetarien = "";
           }
           if(this.foodplans[counter].dienstagCheck){
             if(foodplan.name.includes("Menü 2") && this.dienstagVegetarian){
               vegetarien = "(Vegetarian)"
             }
-            this.dienstagBestellung = this.dienstagBestellung + foodplan.name + vegetarien
+            this.dienstagBestellung = this.dienstagBestellung + foodplan.name + vegetarien + ";"
             vegetarien = "";
           }
           if(this.foodplans[counter].mitwochCheck){
             if(foodplan.name.includes("Menü 2") && this.mittwochVegetarian){
               vegetarien = "(Vegetarian)"
             }
-            this.mittwochBestellung = this.mittwochBestellung + foodplan.name + vegetarien
+            this.mittwochBestellung = this.mittwochBestellung + foodplan.name + vegetarien + ";"
             vegetarien = "";
           }
           if(this.foodplans[counter].donnerstagCheck){
             if(foodplan.name.includes("Menü 2") && this.donnerstagVegetarian){
               vegetarien = "(Vegetarian)"
             }
-            this.donnerstagBestellung = this.donnerstagBestellung + foodplan.name + vegetarien
+            this.donnerstagBestellung = this.donnerstagBestellung + foodplan.name + vegetarien + ";"
             vegetarien = "";
           }
           if(this.foodplans[counter].freitagsCheck){
             if(foodplan.name.includes("Menü 2") && this.freitagVegetarian){
               vegetarien = "(Vegetarian)"
             }
-            this.freitagBestellung = this.freitagBestellung + foodplan.name + vegetarien
+            this.freitagBestellung = this.freitagBestellung + foodplan.name + vegetarien + ";"
             vegetarien = "";
           }
           if(this.foodplans[counter].samstagsCheck){
             if(foodplan.name.includes("Menü 2") && this.samstagVegetarian){
               vegetarien = "(Vegetarian)"
             }
-            this.samstagBestellung = this.samstagBestellung + foodplan.name + vegetarien
+            this.samstagBestellung = this.samstagBestellung + foodplan.name + vegetarien + ";"
             vegetarien = "";
           }
           counter++;
@@ -277,6 +285,7 @@ import html2canvas from 'html2canvas';
           this.bestellungToCreate.donnerstagGesamtpreis = this.donnerstagTotal;
           this.bestellungToCreate.freitagGesamtpreis = this.freitagTotal;
           this.bestellungToCreate.samstagGesamtpreis = this.samstagTotal;
+          this.bestellungToCreate.date = await this.getPreviousMonday();
 
           const result = await firstValueFrom(this.http.post<bestellung>("/bestellungen", this.bestellungToCreate))
           alert("Ihre Bestellung wurde in der Datenbank angelegt!")
@@ -285,6 +294,10 @@ import html2canvas from 'html2canvas';
           this.errorMessage = (error as Error).message
         }
         
+      }
+      }
+      else{
+        alert("Tut uns leid die Bestellung ist nur bis Donnerstag 18 Uhr nötig")
       }
     }
 

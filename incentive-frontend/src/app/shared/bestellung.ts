@@ -12,4 +12,5 @@ export class bestellung{
     donnerstagGesamtpreis!: number;
     freitagGesamtpreis!: number;
     samstagGesamtpreis!: number;
+    date!: string;
 }

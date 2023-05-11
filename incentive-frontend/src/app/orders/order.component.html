@@ -1,4 +1,4 @@
-<div class="orders-wrapper">
+<div class="orders-wrapper" *ngIf="adminState">
     <div class="order">
         <div class="order-zeile-box-header">
             personalnummer
@@ -27,22 +27,22 @@
             {{element.personalnummer}}
         </div>
         <div class="order-zeile-box">
-            {{element.montag.split(";")[0]}}
+            {{element.montag}}
         </div>
         <div class="order-zeile-box">
-            {{element.dienstag.split(";")[0]}}
+            {{element.dienstag}}
         </div>
         <div class="order-zeile-box">
-            {{element.mittwoch.split(";")[0]}}
+            {{element.mittwoch}}
         </div>
         <div class="order-zeile-box">
-            {{element.donnerstag.split(";")[0]}}
+            {{element.donnerstag}}
         </div>
         <div class="order-zeile-box">
-            {{element.freitag.split(";")[0]}}
+            {{element.freitag}}
         </div>
         <div class="order-zeile-box">
-            {{element.samstag.split(";")[0]}}
+            {{element.samstag}}
         </div>
     </div>
 

@@ -13,9 +13,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async findOne(email: string): Promise<UserDocument | undefined> {
-    return this.userModel.findOne({ email });
+  async findOne(email: string){
+    return this.userModel.findOne({ email: email });
   }
+  
   async findOneById(userId: string): Promise<UserDocument | undefined> {
     const user = await this.userModel.findOne({
       _id: this.castToObjectId(userId),
@@ -24,6 +25,10 @@ export class UsersService {
       throw new NotFoundException({ userId: userId, error: 'User not found.' });
     }
     return user;
+  }
+
+  async findOneByPersonalnummer(personalnummer: number): Promise<UserDocument | undefined> {
+    return this.userModel.findOne({ personalnummer: personalnummer });
   }
 
   async hasUser(email: string) {
