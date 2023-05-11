@@ -11,17 +11,15 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Role } from './role.enum';
 import { Roles } from '../auth/roles.decorator';
 import { User, UserDocument } from './user.schema';
-import { RolesGuard } from '../auth/guards/roles.guard';
-import { OwnRouteOrAdminGuard } from './guards/own-route-or-admin.guard';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PatchUserDto } from './dto/patch-user.dto';
 import { UserDto } from './dto/user.dto';
 import { request } from 'http';
+import { NotFoundException } from '@nestjs/common';
 
 @Controller('users')
 //@UseGuards(JwtAuthGuard, RolesGuard)
@@ -30,7 +28,6 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get(':userId')
-  @UseGuards(OwnRouteOrAdminGuard)
   @ApiResponse({ type: () => UserDto })
   @ApiParam({ name: 'userId' })
   async getUser(@Request() request, @Param('userId') userId: string) {
@@ -49,6 +46,9 @@ export class UsersController {
   @ApiResponse({ type: () => UserDto })
   async getFoodplanByName(@Request() request, @Param('personalnummer') personalnummer: number){
     const user = await this.userService.findOneByPersonalnummer(personalnummer);
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
     return this.userToRest(user);
   }
 

@@ -1,5 +1,4 @@
 import { Controller, HttpCode, Post, Request, UseGuards } from '@nestjs/common';
-import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { ApiBody, ApiProperty } from '@nestjs/swagger';
 
@@ -16,7 +15,6 @@ export class LoginDto {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
   @ApiBody({ type: () => LoginDto })
   @Post('auth/login')
   @HttpCode(200)

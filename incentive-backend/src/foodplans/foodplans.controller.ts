@@ -4,6 +4,7 @@ import {
     Controller,
     Delete,
     Get,
+    NotFoundException,
     Param,
     Patch,
     Post,
@@ -36,6 +37,9 @@ export class foodplansController{
     @ApiResponse({ type: () => FoodplansDto })
     async getFoodplanByName(@Request() request, @Param('name') name: string){
       const foodplan = await this.foodplansService.findOne(name);
+      if (!foodplan) {
+        throw new NotFoundException(`User not found`);
+      }
       return this.foodplanToRest(foodplan);
     }
 
@@ -63,6 +67,11 @@ export class foodplansController{
   @ApiResponse({ type: () => FoodplansDto, isArray: true })
   async getFoodplanByDate(@Request() request, @Param('date') startDate: string) {
     const foodplans = this.foodplansService.findFoodplansDate(startDate);
+
+    if (!foodplans) {
+      throw new NotFoundException(`User not found`);
+    }
+
     return foodplans;
   }
 
