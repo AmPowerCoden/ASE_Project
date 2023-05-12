@@ -44,7 +44,7 @@ export class UsersController {
 
   @Get('/personalnummer/:personalnummer')
   @ApiResponse({ type: () => UserDto })
-  async getFoodplanByName(@Request() request, @Param('personalnummer') personalnummer: number){
+  async getUserByPersonalnummer(@Request() request, @Param('personalnummer') personalnummer: number){
     const user = await this.userService.findOneByPersonalnummer(personalnummer);
     if (!user) {
       throw new NotFoundException(`User not found`);
